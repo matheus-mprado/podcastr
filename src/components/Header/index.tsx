@@ -14,7 +14,7 @@ export function Header(){
 
     return(
         <header className={styles.headerContainer}>
-            <Link href="/">
+            <Link href="/" prefetch>
                 <a>
                     <img src="/logo.svg" alt="Podcastr"/>
                 </a>
