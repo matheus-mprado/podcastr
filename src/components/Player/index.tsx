@@ -111,7 +111,7 @@ export function Player() {
                     <button
                       type="button"
                       onClick={playPrev}
-                      disabled={!episode || !hasPrevious}
+                      disabled={!episode || !hasPrevious && !isShuffling}
                     >
                         <img src="/play-previous.svg" alt="Tocar anterior" />
                     </button>
@@ -132,7 +132,7 @@ export function Player() {
                     <button
                       type="button"
                       onClick={playNext}
-                      disabled={!episode || !hasNext}
+                      disabled={!episode || !hasNext && !isShuffling}
                     >
                         <img src="/play-next.svg" alt="Tocar Próxima" />
                     </button>
