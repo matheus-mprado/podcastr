@@ -3,6 +3,7 @@ import { ptBR } from 'date-fns/locale'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
 
 import { api } from '../services/api'
 import { convertDurationToTimeString } from '../utils/converteDurationToTimeString'
@@ -28,100 +29,105 @@ interface HomeProps {
 
 export default function Home({ lastestEpisodes, allEpisodes }: HomeProps) {
 
-  const {play,playList} = usePlayer()
+  const { play, playList } = usePlayer()
 
-  const episodeList = [...lastestEpisodes,...allEpisodes];
+  const episodeList = [...lastestEpisodes, ...allEpisodes];
 
   return (
-    <div className={styles.homePage} >
-      <section className={styles.lastestEpisodes} >
-        <h2>Últimos Lançamentos</h2>
+    <>
+      <Head>
+        <title>Home | Podcasrt</title>
+      </Head>
+      <div className={styles.homePage} >
+        <section className={styles.lastestEpisodes} >
+          <h2>Últimos Lançamentos</h2>
 
-        <ul>
-          {lastestEpisodes.map((episode,index) => {
+          <ul>
+            {lastestEpisodes.map((episode, index) => {
 
-            return (
-              <li key={episode.id}>
-                <Image
-                  width={192}
-                  height={192}
-                  src={episode.thumbnail}
-                  alt={episode.title}
-                  objectFit="cover"
-                />
-
-                <div className={styles.episodeDetails}>
-                  <Link href={`/episodes/${episode.id}`}>
-                    <a>
-                      {episode.title}
-                    </a>
-                  </Link>
-                  <p>{episode.members}</p>
-                  <span>{episode.publishedAt}</span>
-                  <span>{episode.durationAsString}</span>
-                </div>
-
-                <button type="button" onClick={()=>playList(episodeList,index)}>
-                  <img src="/play-green.svg" alt="Tocar Episodio" />
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
-
-      <section className={styles.allEpisodes}>
-        <h2>Todos Episódios</h2>
-
-        <table cellSpacing={0}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Podcasts</th>
-              <th>Integrantes</th>
-              <th>Data</th>
-              <th>Duração</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {allEpisodes.map((episode,index) => {
               return (
-                <tr key={episode.id}>
-                  <td style={{ width: 72 }}>
-                    <Image
-                      height={120}
-                      width={120}
-                      src={episode.thumbnail}
-                      alt={episode.title}
-                      objectFit="cover"
-                    />
-                  </td>
+                <li key={episode.id}>
+                  <Image
+                    width={192}
+                    height={192}
+                    src={episode.thumbnail}
+                    alt={episode.title}
+                    objectFit="cover"
+                  />
 
-                  <td>
+                  <div className={styles.episodeDetails}>
                     <Link href={`/episodes/${episode.id}`}>
                       <a>
                         {episode.title}
                       </a>
                     </Link>
-                  </td>
+                    <p>{episode.members}</p>
+                    <span>{episode.publishedAt}</span>
+                    <span>{episode.durationAsString}</span>
+                  </div>
 
-                  <td>{episode.members}</td>
-                  <td style={{ width: 100 }}>{episode.publishedAt}</td>
-                  <td>{episode.durationAsString}</td>
-                  <td>
-                    <button type="button" onClick={()=>playList(episodeList,(index + lastestEpisodes.length))}>
-                      <img src="/play-green.svg" alt="Tocar Episodio" />
-                    </button>
-                  </td>
-                </tr>
+                  <button type="button" onClick={() => playList(episodeList, index)}>
+                    <img src="/play-green.svg" alt="Tocar Episodio" />
+                  </button>
+                </li>
               )
             })}
-          </tbody>
-        </table>
-      </section>
-    </div>
+          </ul>
+        </section>
+
+        <section className={styles.allEpisodes}>
+          <h2>Todos Episódios</h2>
+
+          <table cellSpacing={0}>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Podcasts</th>
+                <th>Integrantes</th>
+                <th>Data</th>
+                <th>Duração</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {allEpisodes.map((episode, index) => {
+                return (
+                  <tr key={episode.id}>
+                    <td style={{ width: 72 }}>
+                      <Image
+                        height={120}
+                        width={120}
+                        src={episode.thumbnail}
+                        alt={episode.title}
+                        objectFit="cover"
+                      />
+                    </td>
+
+                    <td>
+                      <Link href={`/episodes/${episode.id}`}>
+                        <a>
+                          {episode.title}
+                        </a>
+                      </Link>
+                    </td>
+
+                    <td>{episode.members}</td>
+                    <td style={{ width: 100 }}>{episode.publishedAt}</td>
+                    <td>{episode.durationAsString}</td>
+                    <td>
+                      <button type="button" onClick={() => playList(episodeList, (index + lastestEpisodes.length))}>
+                        <img src="/play-green.svg" alt="Tocar Episodio" />
+                      </button>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </>
   )
 }
 

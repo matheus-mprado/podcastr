@@ -1,6 +1,7 @@
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link'
 
@@ -33,6 +34,11 @@ export default function Episode({ episodes }: EpisodeProps) {
 
     return (
         <div className={styles.episode}>
+
+            <Head>
+                <title>{episodes.title} | Podcasrt</title>
+            </Head>
+
             <div className={styles.content}>
                 <div className={styles.thumbnailContainer}>
                     <Link href="/">
@@ -48,7 +54,7 @@ export default function Episode({ episodes }: EpisodeProps) {
                         objectFit="cover"
 
                     />
-                    <button type="button" onClick={()=>play(episodes)}>
+                    <button type="button" onClick={() => play(episodes)}>
                         <img src="/play.svg" alt="Tocar Episódio" />
                     </button>
                 </div>
@@ -81,8 +87,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     const paths = data.map(episode => {
         return {
-            params:{
-                slug:episode.id
+            params: {
+                slug: episode.id
             }
         }
     })
